@@ -162,6 +162,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Aluno.cs" />
+    <Compile Include="Models\NotaDisciplina.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +220,7 @@
     <Content Include="Views\Aluno\Listar.cshtml" />
     <Content Include="Views\Aluno\Exibir.cshtml" />
     <Content Include="Views\Aluno\Create.cshtml" />
+    <Content Include="Views\Aluno\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

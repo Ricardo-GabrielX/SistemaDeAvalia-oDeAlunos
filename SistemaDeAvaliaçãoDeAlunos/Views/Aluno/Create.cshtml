@@ -1,51 +1,58 @@
 ﻿@model SistemaDeAvaliaçãoDeAlunos.Models.Aluno
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Cadastrar Aluno";
 }
 
-<h2>Create</h2>
+<h2>Cadastrar Aluno</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Aluno</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RA, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RA, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RA, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Nome)
+        @Html.TextBoxFor(model => model.Nome, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Nome)
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.RA)
+        @Html.TextBoxFor(model => model.RA, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.RA)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Data, "Data de Nascimento")
+        @Html.TextBoxFor(model => model.Data, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "Date" })
+        @Html.ValidationMessageFor(model => model.Data)
+    </div>
+
+    <h4>Notas por Disciplina</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Disciplina</th>
+                <th>Nota</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Notas.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(m => m.Notas[i].NomeDisciplina)
+                        @Html.DisplayFor(m => m.Notas[i].NomeDisciplina)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.Notas[i].Nota, new { @class = "form-control", type = "number", step = "0.1", min = "0", max = "10" })
+                        @Html.ValidationMessageFor(m => m.Notas[i].Nota)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    @Html.ActionLink("Cancelar", "Listar", null, new { @class = "btn btn-secondary" })
+}

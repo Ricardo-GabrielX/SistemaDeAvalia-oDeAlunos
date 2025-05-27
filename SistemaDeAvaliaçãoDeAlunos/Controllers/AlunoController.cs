@@ -53,16 +53,35 @@ namespace SistemaDeAvaliaçãoDeAlunos.Controllers
 
         public ActionResult Create()
         {
-            return View(new Aluno());
+            var aluno = new Aluno
+            {
+                Notas = new List<NotaDisciplina>
+        {
+            new NotaDisciplina { NomeDisciplina = "Português" },
+            new NotaDisciplina { NomeDisciplina = "Matemática" },
+            new NotaDisciplina { NomeDisciplina = "História" },
+            new NotaDisciplina { NomeDisciplina = "Geografia" },
+            new NotaDisciplina { NomeDisciplina = "Inglês" }
+        }
+            };
+
+            return View(aluno);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Aluno aluno)
         {
-            aluno.Adicionar(Session);
+            if (ModelState.IsValid)
+            {
+                var alunos = Session["ListaAluno"] as List<Aluno> ?? new List<Aluno>();
+                alunos.Add(aluno);
+                Session["ListaAluno"] = alunos;
 
-            return RedirectToAction("Listar");
+                return RedirectToAction("Listar");
+            }
+
+            return View(aluno);
         }
         public ActionResult Editar(int id)
         {
